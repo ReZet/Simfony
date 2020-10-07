@@ -5,14 +5,14 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-use App\Service\GetOrders;
+use App\Service\GetOrdersService;
 
 
 class TestController extends AbstractController
 {
     private $getOrders;
 
-    public function __construct(GetOrders $getOrders)
+    public function __construct(GetOrdersService $getOrders)
     {
         $this->getOrders = $getOrders;
     }
