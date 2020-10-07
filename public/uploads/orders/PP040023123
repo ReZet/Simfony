@@ -1,0 +1,34 @@
+{
+	"orderItems": [
+		{
+			"barcode": "4062345021658",
+			"price": 24300.00,
+			"cost": 24300.00,
+			"tax_perc": 20,
+			"tax_amt": 4050.00,
+			"quantity": 1,
+			"tracking_number": "1Z05V36Y7951053268",
+			"canceled": "N",
+			"shipped_status_sku": "not sent"
+		},
+		{
+			"barcode": "4062345021659",
+			"price": 37800.00,
+			"cost": 37800.00,
+			"tax_perc": 20,
+			"tax_amt": 63000.00,
+			"quantity": 1,
+			"tracking_number": "1Z05V36Y7951053268",
+			"Canceled": "N",
+			"shipped_status_sku": "not sent"
+		}
+	],
+	"orderId": "PP0400104913",
+	"phone": "+79620230303",
+	"shipping_status": "not sent",
+	"shipping_price": 1000.00,
+	"shipping_payment_status": "not paid",
+	"payment_status": "not paid",
+	"currency": "RUB",
+	"date": "2020-10-15 14:09:32"
+}
