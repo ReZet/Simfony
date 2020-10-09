@@ -5,14 +5,14 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-use App\Service\GetOrdersService;
+use App\Service\OrderService;
 
 
 class TestController extends AbstractController
 {
     private $getOrders;
 
-    public function __construct(GetOrdersService $getOrders)
+    public function __construct(OrderService $getOrders)
     {
         $this->getOrders = $getOrders;
     }
@@ -22,7 +22,7 @@ class TestController extends AbstractController
      */
     public function index()
     {		
-		$this->getOrders->run();
+		echo '<pre>';var_dump($this->getOrders->doGetOrders());echo '</pre>';
 
         return $this->render('test/index.html.twig', [
             'controller_name' => 'TestController',
