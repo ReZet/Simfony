@@ -3,10 +3,43 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+			<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet"/>
+		{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						<div class="collapse navbar-collapse" id="navbarNav">
+							<ul class="navbar-nav mr-auto">
+								<li class="nav-item">
+									<a class="nav-link {% if app.request.attributes.get('_route') == 'home' %}active{% endif %}" href="/">Home</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link {% if app.request.attributes.get('_route') == 'orders' %}active{% endif %}" href="/orders">Orders</a>
+								</li>
+							</ul>
+							
+							<a class="btn btn-outline-light" href="/syncOrders">↺ Sync Orders</a>
+						</div>
+					</nav>
+				</div>
+			</div>
+			<div class="row mt-3"> 
+				<div class="col">
+					<h1>{% block h_one %}{% endblock %}</h1>
+					{% block body %}{% endblock %}
+				</div>
+			</div>
+		</div>
+        {% block javascripts %}
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+			<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+		{% endblock %}
     </body>
 </html>

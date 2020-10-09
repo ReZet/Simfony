@@ -8,7 +8,7 @@ use App\Service\OrderService;
 use App\Service\UnknownApiOrderEntityAdapter;
 use App\ServiceProvider\UnkownApiServiceProvider;
 
-class syncOrderFromUnkownApiService
+class SyncOrderFromUnkownApiService
 {
     private $unkownApi;
 	private $orderService;

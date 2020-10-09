@@ -20,6 +20,16 @@ class OrderService
 		return new Order;
 	}
 	
+	public function findAll(): ?array
+	{
+		return $this->em->getRepository(Order::class)->findAll();
+	}
+	
+	public function find(int $id): ?Order
+	{
+		return $this->em->getRepository(Order::class)->find($id);
+	}
+	
 	public function findOneBy(array $params): ?Order
 	{
 		return $this->em->getRepository(Order::class)->findOneBy($params);

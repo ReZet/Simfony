@@ -19,7 +19,7 @@
 			"tax_amt": 63000.00,
 			"quantity": 1,
 			"tracking_number": "1Z05V36Y7951053268",
-			"Canceled": "N",
+			"canceled": "N",
 			"shipped_status_sku": "not sent"
 		}
 	],

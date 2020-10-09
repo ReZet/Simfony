@@ -1,3 +1,12 @@
 getData:
     path: /getData
     controller: App\Controller\TestController::index
+    
+    
+orders:
+    path: /orders
+    controller: App\Controller\OrderController::index
+    
+show_order:
+    path: /orders/{id}
+    controller: App\Controller\OrderController::show    

@@ -5,14 +5,14 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-use App\Service\syncOrderFromUnkownApiService;
+use App\Service\SyncOrderFromUnkownApiService;
 
 
 class TestController extends AbstractController
 {
     private $syncOrdersService;
 
-    public function __construct(syncOrderFromUnkownApiService $syncOrdersService)
+    public function __construct(SyncOrderFromUnkownApiService $syncOrdersService)
     {
         $this->syncOrdersService = $syncOrdersService;
     }
