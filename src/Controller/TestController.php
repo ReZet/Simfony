@@ -5,16 +5,16 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-use App\Service\OrderService;
+use App\Service\syncOrderFromUnkownApiService;
 
 
 class TestController extends AbstractController
 {
-    private $getOrders;
+    private $syncOrdersService;
 
-    public function __construct(OrderService $getOrders)
+    public function __construct(syncOrderFromUnkownApiService $syncOrdersService)
     {
-        $this->getOrders = $getOrders;
+        $this->syncOrdersService = $syncOrdersService;
     }
 	
     /**
@@ -22,7 +22,7 @@ class TestController extends AbstractController
      */
     public function index()
     {		
-		echo '<pre>';var_dump($this->getOrders->doGetOrders());echo '</pre>';
+		var_dump($this->syncOrdersService->doSyncOrders());
 
         return $this->render('test/index.html.twig', [
             'controller_name' => 'TestController',
