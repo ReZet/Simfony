@@ -6,7 +6,7 @@ namespace App\Service;
 use App\Entity\Order;
 use App\Service\OrderService;
 use App\Service\UnknownApiOrderEntityAdapter;
-use App\ServiceProvider\UnkownApiServiceProvider;
+use App\Service\UnkownApiDataProvider;
 
 class SyncOrderFromUnkownApiService
 {
@@ -17,7 +17,7 @@ class SyncOrderFromUnkownApiService
 
     public function __construct(
 		OrderService $orderService,
-		UnkownApiServiceProvider $unkownApi,
+		UnkownApiDataProvider $unkownApi,
 		UnknownApiOrderEntityAdapter $orderAdapter
 	)
     {
@@ -31,7 +31,7 @@ class SyncOrderFromUnkownApiService
 	private function getLastSyncDate()
 	{
 		if (empty($this->lastSyncDate)) {
-			$this->lastSyncDate = new \DateTime(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/../var/cache/lastSyncDate.txt'));
+			$this->lastSyncDate = new \DateTime(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/../var/unkownApiSync/lastSyncDate.txt'));
 		}
 		
 		return $this->lastSyncDate;
@@ -39,7 +39,7 @@ class SyncOrderFromUnkownApiService
 	
 	private function setLastSyncDate(\DateTime $date): void
 	{
-		file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/../var/cache/lastSyncDate.txt', $date->format('Ymd'), LOCK_EX);
+		file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/../var/unkownApiSync/lastSyncDate.txt', $date->format('Ymd'), LOCK_EX);
 	}
 
     public function doSyncOrders(): array
@@ -51,12 +51,11 @@ class SyncOrderFromUnkownApiService
 	
 	private function saveOrder(array $order): Order
 	{
-		//var_dump($this->getLastSyncDate()->format('Y-m-d'), (new \DateTime($order['date']))->format('Y-m-d'));
+		//first condition for checking the date. If the same date then check order existing. For the next days no need to check
 		if (
 			//$this->getLastSyncDate()->format('Y-m-d') == (new \DateTime($order['date']))->format('Y-m-d') &&
 			$foundOrder = $this->orderService->findOneBy(['orderId' => $order['orderId']])
 		) {
-			$this->setLastSyncDate($foundOrder->getDate());
 			return $foundOrder;
 		}
 		

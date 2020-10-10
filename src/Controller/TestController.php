@@ -5,26 +5,25 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-use App\Service\SyncOrderFromUnkownApiService;
-
 
 class TestController extends AbstractController
-{
-    private $syncOrdersService;
-
-    public function __construct(SyncOrderFromUnkownApiService $syncOrdersService)
+{	
+    /**
+     * @Route("/", name="home")
+     */
+    public function index()
     {
-        $this->syncOrdersService = $syncOrdersService;
+        return $this->render('test/index.html.twig', [
+            'controller_name' => 'TestController',
+        ]);
     }
 	
     /**
-     * @Route("/test", name="test")
+     * @Route("/spa*", name="spa")
      */
-    public function index()
-    {		
-		var_dump($this->syncOrdersService->doSyncOrders());
-
-        return $this->render('test/index.html.twig', [
+    public function spa()
+    {
+        return $this->render('test/spa.html.twig', [
             'controller_name' => 'TestController',
         ]);
     }

@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api\v1;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use App\Service\OrderService;
 use App\Service\SyncOrderFromUnkownApiService;
@@ -22,43 +23,32 @@ class OrderController extends AbstractController
     }
 	
     /**
-     * @Route("/order", name="orders")
+     * @Route("/api/v1/orders", name="api_orders")
      */
-    public function index()
+    public function index(): Response
     {
 		$orders = $this->orderService->findAll();
-		
-		//var_dump($orders);
 
-        return $this->render('order/index.html.twig', [
-            'controller_name' => 'OrderController',
-            'orders' => $orders,
-        ]);
+        return $this->json($orders);
     }
 	
     /**
-     * @Route("/order/{id}", name="show_order")
+     * @Route("/api/v1/order/{id}", name="api_show_order")
      */
-    public function show(Request $request, $id)
+    public function show(Request $request, $id): Response
     {		
 		$order = $this->orderService->find($id);
 
-        return $this->render('order/show.html.twig', [
-            'controller_name' => 'OrderController',
-			'order' => $order
-        ]);
+        return $this->json($order);
     }
 	
     /**
-     * @Route("/sync_orders", name="sync_orders")
+     * @Route("/api/v1/syncOrders", name="api_sync_orders")
      */
-    public function sync()
+    public function sync(): Response
     {		
 		$gottenOrders = $this->syncOrdersService->doSyncOrders();
 
-        return $this->render('order/sync.html.twig', [
-            'controller_name' => 'OrderController',
-            'orders' => $gottenOrders,
-        ]);
+        return $this->json($gottenOrders);
     }
 }

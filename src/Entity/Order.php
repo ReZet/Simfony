@@ -162,11 +162,6 @@ class Order
         return $this->date;
     }
 
-    public function getDateFormatted(string $format = 'd.m.Y H:i:s'): ?\DateTimeInterface
-    {
-        return $this->date->format($string);
-    }
-
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;

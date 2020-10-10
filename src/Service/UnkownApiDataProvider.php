@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\ServiceProvider;
+namespace App\Service;
 
 use App\Http\Client;
 
-class UnkownApiServiceProvider extends Client
+class UnkownApiDataProvider extends Client
 {
 	public const ORDER_SEARCH_LIMIT = 2;
 	

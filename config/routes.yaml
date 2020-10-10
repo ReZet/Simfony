@@ -1,5 +1,5 @@
-getData:
-    path: /getData
+home:
+    path: /
     controller: App\Controller\TestController::index
     
     
@@ -9,4 +9,30 @@ orders:
     
 show_order:
     path: /orders/{id}
-    controller: App\Controller\OrderController::show    
+    controller: App\Controller\OrderController::show
+    
+sync_orders:
+    path: /sync_orders
+    controller: App\Controller\OrderController::sync
+
+
+spa:
+    path: /spa{wildcard}
+    controller: App\Controller\TestController::spa   
+    requirements:
+            wildcard: .*
+            
+            
+api_orders:
+    path: /api/v1/orders
+    controller: App\Controller\Api\v1\OrderController:index
+            
+            
+api_show_order:
+    path: /api/v1/orders/{id}
+    controller: App\Controller\Api\v1\OrderController:show
+            
+            
+api_sync_orders:
+    path: /api/v1/sync_orders
+    controller: App\Controller\Api\v1\OrderController:sync
