@@ -8,23 +8,24 @@
 					</button>
 					<div class="collapse navbar-collapse" id="navbarNav">
 						<ul class="navbar-nav mr-auto">
-							<router-link :to="{ name: 'home' }" v-slot="{ href, route, navigate, isExactActive  }">
-								<li :class="[isExactActive  && 'active', 'nav-item']">
-									<a :href="href" @click="navigate" class="nav-link">Home</a>
-								</li>
-							</router-link>
+							<li class="nav-item">
+								<a href="/" class="nav-link">Home</a>
+							</li>
 							<router-link :to="{ name: 'orders' }" v-slot="{ href, route, navigate, isExactActive  }">
 								<li :class="[isExactActive  && 'active', 'nav-item']">
 									<a :href="href" @click="navigate" class="nav-link">Orders</a>
 								</li>
 							</router-link>
 						</ul>
+					
+						<router-link :to="{name: 'sync'}" class="btn btn-outline-light">↺ Sync Orders</router-link>
 					</div>
 				</nav>
-
-				<div>
-					<router-view></router-view>
-				</div>
+			</div>
+		</div>
+		<div class="row mt-3"> 
+			<div class="col">
+				<router-view></router-view>
 			</div>
 		</div>
 	</div>

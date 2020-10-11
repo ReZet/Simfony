@@ -43,7 +43,7 @@ class OrderController extends AbstractController
     }
 	
     /**
-     * @Route("/api/v1/syncOrders", name="api_sync_orders")
+     * @Route("/api/v1/sync_orders", name="api_sync_orders")
      */
     public function sync(): Response
     {		

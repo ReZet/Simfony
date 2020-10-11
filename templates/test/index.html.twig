@@ -1,20 +1,53 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Hello TestController!{% endblock %}
+{% extends 'choice.html.twig' %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+	* {		
+		padding: 0;
+		margin: 0;
+	}
+	body {
+		background: #000 url("/assets/img/morfeo.jpg") top center no-repeat;
+		/*background-size: contain;*/
+		width: 666px;
+		height: 585px;
+	}
+	.hand {
+		background-repeat: no-repeat;
+		background-size: contain;
+		display: block;
+		width: 203px;
+		height: 160px;
+		position: absolute;
+		top: 380px;
+		
+		color: #fff;
+		text-align: center;
+		text-decoration: none;
+		text-weight: bold;
+		text-shadow: 4px 0 0 #000, 0 2px 0 #000, 0 0 13px #000;
+		font-family: monospace;
+		font-size: 60px;
+		
+		transition: top 0.3s ease-in;
+	}
+	
+	.hand:hover {
+		top: 350px;
+	}
+	
+	.spa {
+		background-image: url("/assets/img/blue.png");
+		left: calc(60vw);
+	}
+	.classic {
+		background-image: url("/assets/img/red.png");
+		right: calc(60vw);
+	}
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/hotelbook/web/symfony.if-else.ru/public_html/src/src/Controller/TestController.php'|file_link(0) }}">src/Controller/TestController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/hotelbook/web/symfony.if-else.ru/public_html/src/templates/test/index.html.twig'|file_link(0) }}">templates/test/index.html.twig</a></code></li>
-    </ul>
+<div class="hands">
+    <a class="hand spa" href="/spa/orders">SPA</a>
+    <a class="hand classic" href="/orders">Classic</a>
 </div>
 {% endblock %}
