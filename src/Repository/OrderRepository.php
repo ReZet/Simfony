@@ -22,29 +22,32 @@ class OrderRepository extends ServiceEntityRepository
     // /**
     //  * @return Order[] Returns an array of Order objects
     //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+  
+    public function findAllJoinedToOrderItems()
+	{
+		//need pagination
+		$entityManager = $this->getEntityManager();
 
-    /*
-    public function findOneBySomeField($value): ?Order
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+		$query = $entityManager->createQuery(
+			'SELECT o
+			FROM App\Entity\Order o'
+		);
+		$query->setFetchMode("App\Entity\OrderItem", "order_items", \Doctrine\ORM\Mapping\ClassMetadata::FETCH_EAGER);
+
+		return $query->getResult();
+	}
+	
+	public function findOneByIdJoinedToOrderItems($orderId)
+	{
+		$entityManager = $this->getEntityManager();
+
+		$query = $entityManager->createQuery(
+			'SELECT o, oi
+			FROM App\Entity\Order o
+			INNER JOIN o.order_items oi
+			WHERE o.id = :id'
+		)->setParameter('id', $orderId);
+
+		return $query->getOneOrNullResult();
+	}
 }

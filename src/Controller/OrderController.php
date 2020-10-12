@@ -26,13 +26,8 @@ class OrderController extends AbstractController
      */
     public function index()
     {
-		$orders = $this->orderService->findAll();
-		
-		//var_dump($orders);
-
         return $this->render('order/index.html.twig', [
-            'controller_name' => 'OrderController',
-            'orders' => $orders,
+            'orders' => $this->orderService->findAll(),
         ]);
     }
 	
@@ -40,12 +35,9 @@ class OrderController extends AbstractController
      * @Route("/order/{id}", name="show_order")
      */
     public function show(Request $request, $id)
-    {		
-		$order = $this->orderService->find($id);
-
+    {
         return $this->render('order/show.html.twig', [
-            'controller_name' => 'OrderController',
-			'order' => $order
+			'order' => $this->orderService->findOneWithOrderItems($id)
         ]);
     }
 	
@@ -53,12 +45,9 @@ class OrderController extends AbstractController
      * @Route("/sync_orders", name="sync_orders")
      */
     public function sync()
-    {		
-		$gottenOrders = $this->syncOrdersService->doSyncOrders();
-
+    {
         return $this->render('order/sync.html.twig', [
-            'controller_name' => 'OrderController',
-            'orders' => $gottenOrders,
+            'orders' => $this->syncOrdersService->doSyncOrders(),
         ]);
     }
 }

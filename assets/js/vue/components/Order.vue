@@ -1,9 +1,9 @@
 <template>
     <div>
-		<h1>Order {{ order.orderId }} Details</h1>
+		<h1>Order {{ order.orderUid }} Details</h1>
 		<div class="row">
 			<div class="col-3 text-right font-weight-bold">Order ID:</div>
-			<div class="col-9">{{ order.orderId }}</div>
+			<div class="col-9">{{ order.orderUid }}</div>
 		</div>
 		<div class="row">
 			<div class="col-3 text-right font-weight-bold">Phone:</div>
@@ -58,11 +58,11 @@
 					<td style="width: 10em" class="col">{{ item.barcode }}</td>
 					<td class="col">{{ item.price }}</td>
 					<td class="col">{{ item.quantity }}</td>
-					<td class="col">{{ item.tax_perc }}</td>
-					<td class="col">{{ item.tax_amt }}</td>
-					<td class="col">{{ item.tracking_number }}</td>
+					<td class="col">{{ item.taxPerc }}</td>
+					<td class="col">{{ item.taxAmt }}</td>
+					<td class="col">{{ item.trackingNumber }}</td>
 					<td class="col">{{ item.canceled }}</td>
-					<td class="col">{{ item.shipped_status_sku }}</td>
+					<td class="col">{{ item.shippedStatusSku }}</td>
 				</tr>
 			</table>
 		</div>
@@ -77,7 +77,7 @@
                 order: {
 					id: '',
 					phone: '',
-					orderId: '',
+					orderUid: '',
 					date: '',
 					orderAmount: '',
 					currency: '',

@@ -2,11 +2,11 @@
 
 namespace App\Service;
 
-use App\Entity\Order;
+use App\Entity\OrderItem;
 use Doctrine\ORM\EntityManagerInterface;
 
 
-class OrderService
+class OrderItemService
 {
 	private $em;
 	private $rep;
@@ -14,7 +14,7 @@ class OrderService
 	public function __construct(EntityManagerInterface $em)
 	{
 		$this->em = $em;
-		$this->setRep($this->em->getRepository(Order::class));
+		$this->setRep($this->em->getRepository(OrderItem::class));
 	}
 	
 	// send to an Abstract Class
@@ -30,9 +30,9 @@ class OrderService
 		return $this->rep;
 	}
 	
-	public function getOrderInstance(): Order
+	public function getOrderItemInstance(): OrderItem
 	{
-		return new Order;
+		return new OrderItem;
 	}
 	
 	public function findAll(): ?array
@@ -40,31 +40,21 @@ class OrderService
 		return $this->getRep()->findAll();
 	}
 	
-	public function findAllWithOrderItems(): ?array
-	{
-		return $this->getRep()->findAllJoinedToOrderItems();
-	}
-	
-	public function findOneWithOrderItems(int $id): ?Order
-	{
-		return $this->getRep()->findOneByIdJoinedToOrderItems($id);
-	}
-	
-	public function find(int $id): ?Order
+	public function find(int $id): ?OrderItem
 	{
 		return $this->getRep()->find($id);
 	}
 	
-	public function findOneBy(array $params): ?Order
+	public function findOneBy(array $params): ?OrderItem
 	{
 		return $this->getRep()->findOneBy($params);
 	}
 	
-	public function saveOrder(Order $order): Order
+	public function saveOrderItem(OrderItem $orderItem): OrderItem
 	{
-		$this->em->persist($order); 	
+		$this->em->persist($orderItem); 	
 		$this->em->flush();
 		
-		return $order;
+		return $orderItem;
 	}
 }

@@ -7,23 +7,35 @@ use App\Entity\Order;
 use App\Service\OrderService;
 use App\Service\UnknownApiOrderEntityAdapter;
 use App\Service\UnkownApiDataProvider;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+
 
 class SyncOrderFromUnkownApiService
 {
     private $unkownApi;
 	private $orderService;
+	private $orderItemService;
 	private $orderAdapter;
+	private $orderItemAdapter;
 	private $lastSyncDate;
+	private $parameterBag;
 
     public function __construct(
 		OrderService $orderService,
+		OrderItemService $orderItemService,
 		UnkownApiDataProvider $unkownApi,
-		UnknownApiOrderEntityAdapter $orderAdapter
+		UnknownApiOrderEntityAdapter $orderAdapter,
+		UnknownApiOrderItemEntityAdapter $orderItemAdapter,
+		ParameterBagInterface $parameterBag
 	)
     {
         $this->unkownApi = $unkownApi;
         $this->orderService = $orderService;
+        $this->orderItemService = $orderItemService;
         $this->orderAdapter = $orderAdapter;
+        $this->orderItemAdapter = $orderItemAdapter;
+		$this->parameterBag = $parameterBag;
+
 		
         $this->unkownApi->setApiUrl('http://symfony.if-else.ru/uploads/');
     }
@@ -31,7 +43,7 @@ class SyncOrderFromUnkownApiService
 	private function getLastSyncDate()
 	{
 		if (empty($this->lastSyncDate)) {
-			$this->lastSyncDate = new \DateTime(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/../var/unkownApiSync/lastSyncDate.txt'));
+			$this->lastSyncDate = new \DateTime(file_get_contents($_SERVER['DOCUMENT_ROOT'] . $this->parameterBag->get('lastSyncDateFile')));
 		}
 		
 		return $this->lastSyncDate;
@@ -39,7 +51,7 @@ class SyncOrderFromUnkownApiService
 	
 	private function setLastSyncDate(\DateTime $date): void
 	{
-		file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/../var/unkownApiSync/lastSyncDate.txt', $date->format('Ymd'), LOCK_EX);
+		file_put_contents($_SERVER['DOCUMENT_ROOT'] . $this->parameterBag->get('lastSyncDateFile'), $date->format('Ymd'), LOCK_EX);
 	}
 
     public function doSyncOrders(): array
@@ -54,13 +66,21 @@ class SyncOrderFromUnkownApiService
 		//first condition for checking the date. If the same date then check order existing. For the next days no need to check
 		if (
 			//$this->getLastSyncDate()->format('Y-m-d') == (new \DateTime($order['date']))->format('Y-m-d') &&
-			$foundOrder = $this->orderService->findOneBy(['orderId' => $order['orderId']])
+			$foundOrder = $this->orderService->findOneBy(['order_uid' => $order['orderId']])
 		) {
 			return $foundOrder;
 		}
 		
-		$savedOrder = $this->orderService->saveOrder($this->orderAdapter->createOrderEntity($order));		
-		
+
+		$newOrder = $this->orderAdapter->createOrderEntity($order);
+		if (!empty($order['orderItems'])) {
+			array_map(function($item) use (&$newOrder) {
+				$savedOrderItem = $this->orderItemAdapter->createOrderItemEntity($newOrder, $item);
+				$newOrder->addOrderItem($savedOrderItem);
+			}, $order['orderItems']);
+		}		
+		$savedOrder = $this->orderService->saveOrder($newOrder);
+				
 		$this->setLastSyncDate($savedOrder->getDate());
 		return $savedOrder;
     }

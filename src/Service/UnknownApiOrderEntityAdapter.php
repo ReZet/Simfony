@@ -12,10 +12,11 @@ class UnknownApiOrderEntityAdapter
 	{
 		$this->orderService = $orderService;
 	}
+	
 	public function createOrderEntity(array $params): Order
 	{
-		$order = $this->orderService->createOrder();
-		$order->setOrderId($params['orderId']);
+		$order = $this->orderService->getOrderInstance();
+		$order->setOrderUid($params['orderId']);
 		$order->setPhone($params['phone']);
 		$order->setShippingStatus($params['shipping_status']);
 		$order->setShippingPrice($params['shipping_price']);
@@ -32,7 +33,7 @@ class UnknownApiOrderEntityAdapter
 			});
 			
 			$params['order_amount'] = $paramsAmount;				
-			$order->setOrderItems($params['orderItems']);
+			//$order->setOrderItems($params['orderItems']);
 		}
 		$order->setOrderAmount(floatval($paramsAmount));
 		

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OrderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,7 +23,7 @@ class Order
     /**
      * @ORM\Column(type="string", length=32)
      */
-    private $orderId;
+    private $order_uid;
 
     /**
      * @ORM\Column(type="string", length=32, nullable=true)
@@ -68,19 +70,29 @@ class Order
      */
     private $orderItems = [];
 
+    /**
+     * @ORM\OneToMany(targetEntity=OrderItem::class, mappedBy="order", orphanRemoval=true,cascade={"persist"})
+     */
+    private $order_items;
+
+    public function __construct()
+    {
+        $this->order_items = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getOrderId(): ?string
+    public function getOrderUid(): ?string
     {
-        return $this->orderId;
+        return $this->order_uid;
     }
 
-    public function setOrderId(string $orderId): self
+    public function setOrderUid(string $order_uid): self
     {
-        $this->orderId = $orderId;
+        $this->order_uid = $order_uid;
 
         return $this;
     }
@@ -90,7 +102,7 @@ class Order
         return $this->phone;
     }
 
-    public function setPhone(?string $phone): self
+    public function setPhone(?string $phone = null): self
     {
         $this->phone = $phone;
 
@@ -169,9 +181,9 @@ class Order
         return $this;
     }
 
-    public function getOrderItems(): ?array
+    public function getOrderItems(): ?Collection
     {
-        return $this->orderItems;
+        return $this->order_items;
     }
 
     public function setOrderItems(?array $orderItems): self
@@ -189,6 +201,29 @@ class Order
     public function setOrderAmount(float $orderAmount): self
     {
         $this->order_amount = $orderAmount;
+
+        return $this;
+    }
+
+    public function addOrderItem(OrderItem $orderItem): self
+    {
+        if (!$this->order_items->contains($orderItem)) {
+            $this->order_items[] = $orderItem;
+            $orderItem->setOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderItem(OrderItem $orderItem): self
+    {
+        if ($this->order_items->contains($orderItem)) {
+            $this->order_items->removeElement($orderItem);
+            // set the owning side to null (unless already changed)
+            if ($orderItem->getOrder() === $this) {
+                $orderItem->setOrder(null);
+            }
+        }
 
         return $this;
     }

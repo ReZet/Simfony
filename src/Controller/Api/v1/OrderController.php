@@ -27,28 +27,22 @@ class OrderController extends AbstractController
      */
     public function index(): Response
     {
-		$orders = $this->orderService->findAll();
-
-        return $this->json($orders);
+        return $this->json($this->orderService->findAllWithOrderItems());
     }
 	
     /**
      * @Route("/api/v1/order/{id}", name="api_show_order")
      */
     public function show(Request $request, $id): Response
-    {		
-		$order = $this->orderService->find($id);
-
-        return $this->json($order);
+    {
+        return $this->json($this->orderService->find($id));
     }
 	
     /**
      * @Route("/api/v1/sync_orders", name="api_sync_orders")
      */
     public function sync(): Response
-    {		
-		$gottenOrders = $this->syncOrdersService->doSyncOrders();
-
-        return $this->json($gottenOrders);
+    {
+        return $this->json($this->syncOrdersService->doSyncOrders());
     }
 }

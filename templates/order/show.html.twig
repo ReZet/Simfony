@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Order {{ order.orderId }} Details{% endblock %}
-{% block h_one %}Order {{ order.orderId }} Details{% endblock %}
+{% block title %}Order {{ order.orderUid }} Details{% endblock %}
+{% block h_one %}Order {{ order.orderUid }} Details{% endblock %}
 
 {% block body %}
 <div class="row">
 	<div class="col-3 text-right font-weight-bold">Order ID:</div>
-	<div class="col-9">{{ order.orderID }}</div>
+	<div class="col-9">{{ order.orderUid }}</div>
 </div>
 <div class="row">
 	<div class="col-3 text-right font-weight-bold">Phone:</div>
@@ -62,11 +62,11 @@
 				<td style="width: 10em" class="col">{{ item.barcode }}</td>
 				<td class="col">{{ item.price }}</td>
 				<td class="col">{{ item.quantity }}</td>
-				<td class="col">{{ item.tax_perc }}</td>
-				<td class="col">{{ item.tax_amt }}</td>
-				<td class="col">{{ item.tracking_number }}</td>
+				<td class="col">{{ item.taxPerc }}</td>
+				<td class="col">{{ item.taxAmt }}</td>
+				<td class="col">{{ item.trackingNumber }}</td>
 				<td class="col">{{ item.canceled }}</td>
-				<td class="col">{{ item.shipped_status_sku }}</td>
+				<td class="col">{{ item.shippedStatusSku }}</td>
 			</tr>
 		{% endfor %}
 	</table>
