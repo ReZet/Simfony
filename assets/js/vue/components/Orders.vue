@@ -13,7 +13,7 @@
 			<tbody>
 				<tr v-for="order, index in orders" class="align-middle">
 					<td class="align-middle">{{ order.id }}</td>
-					<td class="align-middle">{{ order.orderId }}</td>
+					<td class="align-middle">{{ order.orderUid }}</td>
 					<td class="align-middle">{{ order.date|date }}</td>
 					<td class="align-baseline">{{ order.orderAmount }} {{ order.currency }}</td>
 					<td>
